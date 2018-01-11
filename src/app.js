@@ -11,9 +11,9 @@ import './styles/styles.scss';
 
 const store = configureStore();
 
-store.dispatch(addExpense({ description: 'Water Bill', amount: 4500 }));
-store.dispatch(addExpense({ description: 'Gas Bill', createdAt: 1000}));
-store.dispatch(addExpense({ description: 'rent', amount: 109500 }));
+// store.dispatch(addExpense({ description: 'Water Bill', amount: 4500 }));
+// store.dispatch(addExpense({ description: 'Gas Bill', createdAt: 1000}));
+// store.dispatch(addExpense({ description: 'rent', amount: 109500 }));
 //store.dispatch(setTextFilter('water'));
 
 // 3 seconds later we can see the bill expenses
@@ -23,9 +23,9 @@ store.dispatch(addExpense({ description: 'rent', amount: 109500 }));
 
 
 // getVisibleExpenses -> print visibles ones to screen
-const state = store.getState();
-const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-console.log(visibleExpenses);
+// const state = store.getState();
+// const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+// console.log(visibleExpenses);
 
 const jsx = (
     <Provider store={store}>
