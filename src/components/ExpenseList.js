@@ -8,9 +8,7 @@ const ExpenseList = (props) => (
         <h1>Expense List</h1>
         {props.expenses.map((expense) => (
             <ExpenseListItem {...expense} key={expense.id}/>
-        ))}\
-
-        
+        ))}
     </div>
 );
 
