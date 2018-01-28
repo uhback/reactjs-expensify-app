@@ -21,20 +21,19 @@ export const addExpense = (expense) => ({
 
 export const startAddExpense = (expenseData = {}) => {
     return (dispatch) => {
-        // const {
-        //     description = '', 
-        //     note = '', 
-        //     amount = 0, 
-        //     createdAt = 0 
-        // } = expenseData;
-        //const expense = { description, note, amount, createdAt };
+        const {
+            description = '', 
+            note = '', 
+            amount = 0, 
+            createdAt = 0 
+        } = expenseData;
+        const expense = { description, note, amount, createdAt };
         database.ref('expense').push(expenseData).then((ref) => {
             dispatch(addExpense({
                 id: ref.key,
                 ...expenseData
             }))
         })
-        console.log(expenseData);        
     }
 }
 
