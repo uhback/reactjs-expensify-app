@@ -1,5 +1,4 @@
 import * as firebase from 'firebase';
-import { setTimeout } from 'timers';
 
   // Initialize Firebase
   var config = {
@@ -14,8 +13,9 @@ import { setTimeout } from 'timers';
   firebase.initializeApp(config);
   
   const database = firebase.database();
-
-  export { firebase, database as default };
+  const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+  
+  export { firebase, googleAuthProvider, database as default };
 
 
   // // child_removed - listen the child change
