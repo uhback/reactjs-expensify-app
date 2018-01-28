@@ -42,6 +42,15 @@ export const removeExpense = ({ id } = {}) => ({
     type: 'REMOVE_EXPENSE',
     id
 });
+
+export const startRemoveExpense = ({ id } = {}) => {
+    return (dispatch) => {
+        return database.ref(`expense/${id}`).remove().then(() => {
+            dispatch(removeExpense({ id }));
+        })
+    }
+}
+
 // EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
     type: 'EDIT_EXPENSE',
@@ -60,12 +69,12 @@ export const setExpenses = (expenses) => ({
 // 2. Parse that data into an array
 // 3. Dispatch SET_EXPENSES
 export const startSetExpenses = () => {
-    // access dispatch
+    // access dispatch by the redux lib.
     return (dispatch) => {
         // promise gets returned allow us to have access "then" in app.js
         return database.ref('expense').once('value').then((snapshot) => {
             const expenses = [];
-            
+
             snapshot.forEach((childSnapshot) => {
                 expenses.push({
                     id: childSnapshot.key,
