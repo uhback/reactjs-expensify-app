@@ -48,3 +48,47 @@ export const editExpense = (id, updates) => ({
     id,
     updates
 })
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+    type: 'SET_EXPENSES',
+    expenses
+});
+
+
+// 1. Fetch all expense data once
+// 2. Parse that data into an array
+// 3. Dispatch SET_EXPENSES
+export const startSetExpenses = () => {
+    // access dispatch
+    return (dispatch) => {
+        // promise gets returned allow us to have access "then" in app.js
+        return database.ref('expense').once('value').then((snapshot) => {
+            const expenses = [];
+            
+            snapshot.forEach((childSnapshot) => {
+                expenses.push({
+                    id: childSnapshot.key,
+                    ...childSnapshot.val()
+                })
+            })
+            // data in redux
+            dispatch(setExpenses(expenses));
+        })
+    }
+}
+
+// database.ref().on('value', (snapshot) => {
+//     database.ref('expenses')
+//     .once('value')
+//     .then((snapshot) => {
+//         const expenses = [];
+//         snapshot.forEach((childSnapshot) => {
+//             expenses.push({
+//                 id: childSnapshot.key,
+//                 ...childSnapshot.val()
+//             })
+//         });
+//         console.log(expenses);
+//     });
+// })
