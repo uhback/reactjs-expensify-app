@@ -1,17 +1,17 @@
 import uuid from 'uuid';
 import database from '../firebase/firebase';
 
+/* previous process */
 // component calls action generator
 // action generator returns object
 // component dispatches object
 // redux store changes
 
+/* with database and thunk */
 // component calls action generator
 // action generator returns function
 // component dispatches function (?)
 // function runs (has the ability to dispatch other actions and do whatever it wants)
-
-
 
 // ADD_EXPENSE
 export const addExpense = (expense) => ({
@@ -21,19 +21,20 @@ export const addExpense = (expense) => ({
 
 export const startAddExpense = (expenseData = {}) => {
     return (dispatch) => {
-        const {
-            description = '', 
-            note = '', 
-            amount = 0, 
-            createdAt = 0 
-        } = expenseData;
-        const expense = { description, note, amount, createdAt };
-        database.ref('expense').push(expense).then((ref) => {
+        // const {
+        //     description = '', 
+        //     note = '', 
+        //     amount = 0, 
+        //     createdAt = 0 
+        // } = expenseData;
+        //const expense = { description, note, amount, createdAt };
+        database.ref('expense').push(expenseData).then((ref) => {
             dispatch(addExpense({
                 id: ref.key,
-                ...expense
+                ...expenseData
             }))
         })
+        console.log(expenseData);        
     }
 }
 
@@ -51,12 +52,23 @@ export const startRemoveExpense = ({ id } = {}) => {
     }
 }
 
+
 // EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
     type: 'EDIT_EXPENSE',
     id,
     updates
 })
+
+export const startEditExpense = (id, updates) => {
+    return (dispatch) => {
+        return database.ref(`expense/${id}`).update(updates).then(() => {
+            dispatch(editExpense(id, updates));
+        })
+    }
+}
+
+
 
 // SET_EXPENSES
 export const setExpenses = (expenses) => ({
@@ -86,18 +98,3 @@ export const startSetExpenses = () => {
         })
     }
 }
-
-// database.ref().on('value', (snapshot) => {
-//     database.ref('expenses')
-//     .once('value')
-//     .then((snapshot) => {
-//         const expenses = [];
-//         snapshot.forEach((childSnapshot) => {
-//             expenses.push({
-//                 id: childSnapshot.key,
-//                 ...childSnapshot.val()
-//             })
-//         });
-//         console.log(expenses);
-//     });
-// })
